@@ -7,11 +7,6 @@ const User = {
     }
 }
 
-type TypeUser = typeof User
-
-type PropertyUser = keyof TypeUser
-
-
 console.log(pickProperty(User,"address"))
 
 
