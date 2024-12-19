@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import MyButton from "./componentsPage/button";
 
 type Advice = {
   advice: string;
