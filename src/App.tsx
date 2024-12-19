@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Advice = {
   advice: string;
@@ -37,11 +37,13 @@ const App: React.FC = () => {
       id: 1,
       name: "joao",
       age: 20,
+      favorite: false,
     },
     {
       id: 2,
       name: "paulo",
       age: 34,
+      favorite: false,
     },
   ];
 
@@ -54,8 +56,16 @@ const App: React.FC = () => {
         id: Math.floor(Math.random() * 10000),
         name: "Novo repo",
         age: Math.floor(Math.random() * 100),
+        favorite: false,
       },
     ]);
+  };
+
+  const favoriteUser = (id: Number) => {
+    const newFavUser = repositories.map((user) => {
+      return user.id == id ? { ...user, favorite: !user.favorite } : user;
+    });
+    setRepositories(newFavUser);
   };
 
   return (
@@ -122,6 +132,10 @@ const App: React.FC = () => {
 
       <div className=" grid col-span-1 sm:col-span-2 lg:col-span-3 border rounded-md p-4 gap-2">
         <div className="grid grid-cols-1 p-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 lg:gap-3 2xl:gap-5">
+          <p className="col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4 justify-self-center">
+            quantidade de favoritos:{" "}
+            {repositories.filter((repo) => repo.favorite).length}
+          </p>
           {repositories.map((repo) => {
             return (
               <div
@@ -131,6 +145,19 @@ const App: React.FC = () => {
                 <span>Id: {repo.id}</span>
                 <span>Name: {repo.name}</span>
                 <span>Age: {repo.age}</span>
+                <div className="flex self-end items-center gap-3">
+                  {repo.favorite && (
+                    <span className="bg-blue-300 rounded-md p-1 min-w-20">
+                      favoritado
+                    </span>
+                  )}
+                  <button
+                    onClick={() => favoriteUser(repo.id)}
+                    className="bg-red-300 rounded-md cursor-pointer p-1 hover:bg-red-400 transition ease-in-out delay-100 self-end min-w-20"
+                  >
+                    Favoritar
+                  </button>
+                </div>
               </div>
             );
           })}
