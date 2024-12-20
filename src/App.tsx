@@ -1,8 +1,12 @@
 import { useEffect, useReducer, useState } from "react";
 
+//CONSELHOS
+
 type Advice = {
   advice: string;
 };
+
+//USUARIOS
 
 const Users = [
   {
@@ -19,12 +23,16 @@ const Users = [
   },
 ];
 
+//LOCATIONS
+
 interface locations {
   coords: {
     latitude: number | null;
     longitude: number | null;
   };
 }
+
+//Reducer Teste
 
 interface CounterState {
   counter: number;
@@ -34,23 +42,62 @@ interface ActionType {
   type: "increment" | "decrement" | "erase";
 }
 
-const reducerfn = (state: CounterState, action: ActionType) => {
+const reducerfn = (stateTeste: CounterState, action: ActionType) => {
   switch (action.type) {
     case "increment":
       return {
-        ...state,
-        counter: state.counter + 1,
+        ...stateTeste,
+        counter: stateTeste.counter + 1,
       };
     case "decrement":
       return {
-        ...state,
-        counter: state.counter - 1,
+        ...stateTeste,
+        counter: stateTeste.counter - 1,
       };
     case "erase":
       return {
-        ...state,
-        counter: (state.counter = 0),
+        ...stateTeste,
+        counter: (stateTeste.counter = 0),
       };
+    default:
+      return stateTeste;
+  }
+};
+
+// REDUCER TASKS
+
+interface TasksProps {
+  id: number;
+  name: string;
+  date: string;
+  isCompleted: boolean;
+}
+
+interface TasksState {
+  tasks: TasksProps[];
+}
+
+interface TaskAction {
+  type: "add-task" | "toggle-task",
+  payload: string
+}
+
+const reducerTK = (state: TasksState, action: TaskAction) => {
+ 
+  switch (action.type) {
+    case "add-task":
+      return {
+        tasks: [
+          ...state.tasks,
+          {
+            id: Math.floor(Math.random() * 10000),
+            name: action.payload,
+            date: new Date(Date.now()).toLocaleDateString(),
+            isCompleted: false,
+          },
+        ],
+      };
+      case 
     default:
       return state;
   }
@@ -127,7 +174,13 @@ const App: React.FC = () => {
 
   //----REDUCER
 
-  const [state, dispatch] = useReducer(reducerfn, { counter: 0 });
+  const [stateTeste, dispatchTeste] = useReducer(reducerfn, { counter: 0 });
+
+  //-----REDUCER COM STATE ----- LISTA DE TAREFAS
+
+  const [state, dispatch] = useReducer(reducerTK, { tasks: [] });
+
+  const [inputValue, setInputValue] = useState("");
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 m-4 gap-2 sm:gap-3 lg:gap-4">
@@ -199,23 +252,23 @@ const App: React.FC = () => {
 
       <div className="flex flex-col items-center border rounded-md p-6 gap-6">
         <p>contador com reducer</p>
-        <p>{state.counter}</p>
+        <p>{stateTeste.counter}</p>
         <div className="flex flex-row gap-2">
           <button
             className="rounded-full bg-red-400 w-8 h-8 cursor-pointer"
-            onClick={() => dispatch({ type: "decrement" })}
+            onClick={() => dispatchTeste({ type: "decrement" })}
           >
             -
           </button>
           <button
             className="rounded-full bg-gray-400 w-12 h-8 cursor-pointer"
-            onClick={() => dispatch({ type: "erase" })}
+            onClick={() => dispatchTeste({ type: "erase" })}
           >
             zerar
           </button>
           <button
             className="rounded-full bg-green-400 w-8 h-8 cursor-pointer"
-            onClick={() => dispatch({ type: "increment" })}
+            onClick={() => dispatchTeste({ type: "increment" })}
           >
             +
           </button>
@@ -260,6 +313,56 @@ const App: React.FC = () => {
         >
           Adcionar repositorio
         </button>
+      </div>
+
+      <div className="grid col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4 p-4 gap-2 border rounded-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 p-1">
+          <p className="justify-self-center col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4">
+            Minhas tarefas
+          </p>
+          {state.tasks.map((task) => {
+            return (
+              <div
+                className="flex flex-col bg-slate-200 border rounded-md p-3 gap-1"
+                key={task.id}
+              >
+                <span>Name: {task.name}</span>
+                <span>Dia: {task.date}</span>
+
+                <button
+                  onClick={() =>
+                    dispatch({ type: "add-task", payload: inputValue })
+                  }
+                  className="bg-red-300 rounded-md cursor-pointer p-1 hover:bg-red-400 transition ease-in-out delay-100 self-end min-w-20"
+                >
+                  Finalizar
+                </button>
+              </div>
+            );
+          })}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 p-1 gap-2">
+          <div className="grid col-span-1">
+            <label htmlFor="inputTask">Insira uma nova tarefa</label>
+            <input
+              name="inputTask"
+              className="border rounded-md h-10 p-2"
+              type="text"
+              value={inputValue}
+              placeholder="Ex. Estudar"
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+          </div>
+          <button
+            className="bg-slate-400 rounded-md cursor-pointer p-1 w-[60%] h-10 sm:w-[50%] lg:w-[40%] 2xl:[30%] self-end hover:bg-slate-500 transition ease-in-out delay-100"
+            onClick={() => {
+              dispatch({ type: "add-task", payload: inputValue });
+              setInputValue("");
+            }}
+          >
+            Adicionar tarefas
+          </button>
+        </div>
       </div>
     </div>
   );
