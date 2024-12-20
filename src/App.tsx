@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 type Advice = {
   advice: string;
@@ -25,6 +25,36 @@ interface locations {
     longitude: number | null;
   };
 }
+
+interface CounterState {
+  counter: number;
+}
+
+interface ActionType {
+  type: "increment" | "decrement" | "erase";
+}
+
+const reducerfn = (state: CounterState, action: ActionType) => {
+  switch (action.type) {
+    case "increment":
+      return {
+        ...state,
+        counter: state.counter + 1,
+      };
+    case "decrement":
+      return {
+        ...state,
+        counter: state.counter - 1,
+      };
+    case "erase":
+      return {
+        ...state,
+        counter: (state.counter = 0),
+      };
+    default:
+      return state;
+  }
+};
 
 const App: React.FC = () => {
   const [conselho, setAdvice] = useState<Advice>();
@@ -95,6 +125,10 @@ const App: React.FC = () => {
     setLocation({ latitude, longitude });
   };
 
+  //----REDUCER
+
+  const [state, dispatch] = useReducer(reducerfn, { counter: 0 });
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 m-4 gap-2 sm:gap-3 lg:gap-4">
       <div
@@ -161,6 +195,31 @@ const App: React.FC = () => {
         <p>Buscar cordenadas</p>
         <span>Latidude: {location.latitude}</span>
         <span>Longitude: {location.longitude}</span>
+      </div>
+
+      <div className="flex flex-col items-center border rounded-md p-6 gap-6">
+        <p>contador com reducer</p>
+        <p>{state.counter}</p>
+        <div className="flex flex-row gap-2">
+          <button
+            className="rounded-full bg-red-400 w-8 h-8 cursor-pointer"
+            onClick={() => dispatch({ type: "decrement" })}
+          >
+            -
+          </button>
+          <button
+            className="rounded-full bg-gray-400 w-12 h-8 cursor-pointer"
+            onClick={() => dispatch({ type: "erase" })}
+          >
+            zerar
+          </button>
+          <button
+            className="rounded-full bg-green-400 w-8 h-8 cursor-pointer"
+            onClick={() => dispatch({ type: "increment" })}
+          >
+            +
+          </button>
+        </div>
       </div>
 
       <div className=" grid col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4 border rounded-md p-4 gap-2">
