@@ -4,6 +4,28 @@ type Advice = {
   advice: string;
 };
 
+const Users = [
+  {
+    id: 1,
+    name: "joao",
+    age: 20,
+    favorite: false,
+  },
+  {
+    id: 2,
+    name: "paulo",
+    age: 34,
+    favorite: false,
+  },
+];
+
+interface locations {
+  coords: {
+    latitude: number | null;
+    longitude: number | null;
+  };
+}
+
 const App: React.FC = () => {
   const [conselho, setAdvice] = useState<Advice>();
   const [count, setCount] = useState<number>(0);
@@ -16,6 +38,8 @@ const App: React.FC = () => {
   //   while (Date.now() < future) {}
   //   return numero1 ** numero2;
   // }, [numero1, numero2]);
+
+  //-----API CONSELHO
 
   useEffect(() => {
     loadAdvice();
@@ -32,29 +56,16 @@ const App: React.FC = () => {
     loadAdvice();
   };
 
-  const Users = [
-    {
-      id: 1,
-      name: "joao",
-      age: 20,
-      favorite: false,
-    },
-    {
-      id: 2,
-      name: "paulo",
-      age: 34,
-      favorite: false,
-    },
-  ];
+  //----USUARIOS
 
-  const [repositories, setRepositories] = useState(Users);
+  const [usuarios, setUsuarios] = useState(Users);
 
   const handleAddRepository = () => {
-    setRepositories([
-      ...repositories,
+    setUsuarios([
+      ...usuarios,
       {
         id: Math.floor(Math.random() * 10000),
-        name: "Novo repo",
+        name: "Novo user",
         age: Math.floor(Math.random() * 100),
         favorite: false,
       },
@@ -62,14 +73,30 @@ const App: React.FC = () => {
   };
 
   const favoriteUser = (id: Number) => {
-    const newFavUser = repositories.map((user) => {
+    const newFavUser = usuarios.map((user) => {
       return user.id == id ? { ...user, favorite: !user.favorite } : user;
     });
-    setRepositories(newFavUser);
+    setUsuarios(newFavUser);
+  };
+
+  //----LOCATIONS-------
+
+  const [location, setLocation] = useState<locations["coords"]>({
+    latitude: 0,
+    longitude: 0,
+  });
+
+  useEffect(() => {
+    navigator.geolocation.watchPosition(handleLocations);
+  });
+
+  const handleLocations = ({ coords }: locations) => {
+    const { latitude, longitude } = coords;
+    setLocation({ latitude, longitude });
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 m-4 gap-2 sm:gap-3 lg:gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 m-4 gap-2 sm:gap-3 lg:gap-4">
       <div
         id="testeApi"
         className="flex flex-col items-center gap-2 border rounded-md p-6"
@@ -130,13 +157,19 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className=" grid col-span-1 sm:col-span-2 lg:col-span-3 border rounded-md p-4 gap-2">
+      <div className="flex flex-col items-center border rounded-md p-6 gap-6">
+        <p>Buscar cordenadas</p>
+        <span>Latidude: {location.latitude}</span>
+        <span>Longitude: {location.longitude}</span>
+      </div>
+
+      <div className=" grid col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4 border rounded-md p-4 gap-2">
         <div className="grid grid-cols-1 p-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 lg:gap-3 2xl:gap-5">
           <p className="col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4 justify-self-center">
-            quantidade de favoritos:{" "}
-            {repositories.filter((repo) => repo.favorite).length}
+            quantidade de favoritos:
+            {usuarios.filter((repo) => repo.favorite).length}
           </p>
-          {repositories.map((repo) => {
+          {usuarios.map((repo) => {
             return (
               <div
                 key={repo.id}
