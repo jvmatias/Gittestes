@@ -202,16 +202,38 @@ const App: React.FC = () => {
   //-------AXIOS------------
 
   const [posts, setPost] = useState<PostType[]>([]);
+  const [titleValue, setTitleValue] = useState("");
+  const [bodyValue, setBodyValue] = useState("");
 
   useEffect(() => {
     basePostUrl
       .get("/posts/")
       .then((response) => {
-        const data = response.data.slice(0, 10);
+        const data = response.data.slice(95, 105);
         setPost(data);
       })
       .catch((error) => console.error(error));
   }, []);
+
+  const sendNewPost = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await basePostUrl.post("/posts", {
+        body: bodyValue,
+        title: titleValue,
+        userId: 1,
+      });
+      if (response.status === 201) {
+        console.log("post criado com sucesso");
+
+        setTitleValue("");
+        setBodyValue("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 m-4 gap-2 sm:gap-3 lg:gap-4">
@@ -412,12 +434,31 @@ const App: React.FC = () => {
             );
           })}
         </div>
-        <button
-          className="bg-slate-400 rounded-md cursor-pointer p-2 w-[50%] sm:w-[40%] lg:w-[30%] 2xl:[20%] justify-self-center hover:bg-slate-500 transition ease-in-out delay-100"
-          onClick={handleAddRepository}
-        >
-          Adcionar repositorio
-        </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 p-1 gap-2">
+          <form className="flex flex-col gap-2" onSubmit={sendNewPost}>
+            <h3 className="my-3">Insira um novo post</h3>
+            <label htmlFor="inputTitle">Insira um titulo</label>
+            <input
+              name="inputTitle"
+              className="border rounded-md h-10 p-2"
+              type="text"
+              value={titleValue}
+              onChange={(e) => setTitleValue(e.target.value)}
+            />
+            <label htmlFor="inputBody">Insira uma descricao</label>
+            <textarea
+              name="inputTitle"
+              className="border rounded-md h-10 p-2"
+              value={bodyValue}
+              onChange={(e) => setBodyValue(e.target.value)}
+            />
+            <input
+              className="bg-slate-400 rounded-md cursor-pointer p-1 w-[60%] h-10 sm:w-[50%] lg:w-[40%] 2xl:[30%] hover:bg-slate-500 transition ease-in-out delay-100"
+              type="submit"
+              value="Adicionar post"
+            />
+          </form>
+        </div>
       </div>
     </div>
   );
