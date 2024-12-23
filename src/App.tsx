@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
+import basePostUrl from "./componentsPage/AxiosConfig";
 
 //CONSELHOS
 
@@ -78,12 +79,11 @@ interface TasksState {
 }
 
 interface TaskAction {
-  type: "add-task" | "toggle-task",
-  payload: string
+  type: "add-task" | "toggle-task";
+  payload: string | number;
 }
 
 const reducerTK = (state: TasksState, action: TaskAction) => {
- 
   switch (action.type) {
     case "add-task":
       return {
@@ -91,17 +91,34 @@ const reducerTK = (state: TasksState, action: TaskAction) => {
           ...state.tasks,
           {
             id: Math.floor(Math.random() * 10000),
-            name: action.payload,
+            name: action.payload as string,
             date: new Date(Date.now()).toLocaleDateString(),
             isCompleted: false,
           },
         ],
       };
-      case 
+    case "toggle-task":
+      return {
+        ...state.tasks,
+        tasks: state.tasks.map((task, index) => {
+          return index == (action.payload as number)
+            ? { ...task, isCompleted: !task.isCompleted }
+            : task;
+        }),
+      };
     default:
       return state;
   }
 };
+
+//AXIOS
+
+interface PostType {
+  title: string;
+  id: number;
+  body: string;
+  userId: number;
+}
 
 const App: React.FC = () => {
   const [conselho, setAdvice] = useState<Advice>();
@@ -181,6 +198,20 @@ const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducerTK, { tasks: [] });
 
   const [inputValue, setInputValue] = useState("");
+
+  //-------AXIOS------------
+
+  const [posts, setPost] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    basePostUrl
+      .get("/posts/")
+      .then((response) => {
+        const data = response.data.slice(0, 10);
+        setPost(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 m-4 gap-2 sm:gap-3 lg:gap-4">
@@ -363,6 +394,30 @@ const App: React.FC = () => {
             Adicionar tarefas
           </button>
         </div>
+      </div>
+      <div className=" grid col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4 border rounded-md p-4 gap-2">
+        <div className="grid grid-cols-1 p-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 lg:gap-3 2xl:gap-5">
+          <p className="col-span-1 sm:col-span-2 lg:col-span-3 2xl:col-span-4 justify-self-center">
+            Posts
+          </p>
+          {posts.map((post) => {
+            return (
+              <div
+                key={post.id}
+                className="flex flex-col gap-1 border rounded-md p-3 bg-slate-200"
+              >
+                <h1 className="text-lg">{post.title}</h1>
+                <p className="first-letter:pl-1">{post.body}</p>
+              </div>
+            );
+          })}
+        </div>
+        <button
+          className="bg-slate-400 rounded-md cursor-pointer p-2 w-[50%] sm:w-[40%] lg:w-[30%] 2xl:[20%] justify-self-center hover:bg-slate-500 transition ease-in-out delay-100"
+          onClick={handleAddRepository}
+        >
+          Adcionar repositorio
+        </button>
       </div>
     </div>
   );
