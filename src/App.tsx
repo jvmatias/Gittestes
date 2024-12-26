@@ -13,7 +13,11 @@ const App = () => {
 
   console.log(data);
 
-  return <div></div>;
+  return (
+    <div>
+      <h2>Hello world</h2>
+    </div>
+  );
 };
 
 export default App;
