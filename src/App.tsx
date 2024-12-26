@@ -21,6 +21,7 @@ const App = () => {
       <p>a</p>
       <p>o</p>
       <p>s</p>
+      <p>2</p>
     </div>
   );
 };
