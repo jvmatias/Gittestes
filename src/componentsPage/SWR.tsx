@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import basePostUrl from "./AxiosConfig";
 
 export const fetcher = (url: string) =>
