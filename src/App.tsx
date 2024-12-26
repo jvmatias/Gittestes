@@ -16,10 +16,8 @@ const App = () => {
   return (
     <div>
       <h2>Hello world</h2>
-      <p>testando vi</p>
-      <p>commit</p>
-      <p>primeiro commit aq</p>
-      <p>quarto commit aq</p>
+      <p>commit 1</p>
+      <p>commit 2</p>
     </div>
   );
 };
