@@ -9,7 +9,7 @@ interface UserType {
 }
 
 const App = () => {
-  const { data, error } = useSWR<UserType>("users", fetcher);
+  const { data } = useSWR<UserType>("users", fetcher);
 
   console.log(data);
 
