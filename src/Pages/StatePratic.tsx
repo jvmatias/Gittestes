@@ -26,3 +26,5 @@ function pickProperty<ObjectType>(obj: ObjectType, property: keyof ObjectType) {
 pickProperty(User, "name");
 
 pickProperty(video, "title");
+
+//terceiro commmit aq
