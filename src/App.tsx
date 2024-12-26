@@ -16,8 +16,6 @@ const App = () => {
   return (
     <div>
       <h2>Hello world</h2>
-      <p>commit 1</p>
-      <p>commit 2</p>
     </div>
   );
 };
