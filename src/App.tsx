@@ -17,6 +17,7 @@ const App = () => {
     <div>
       <h2>Hello world</h2>
       <p>testando vi</p>
+      <p>commit</p>
     </div>
   );
 };
