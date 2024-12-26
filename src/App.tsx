@@ -16,6 +16,7 @@ const App = () => {
   return (
     <div>
       <h2>Hello world</h2>
+      <p>ola</p>
     </div>
   );
 };
