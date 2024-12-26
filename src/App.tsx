@@ -18,10 +18,8 @@ const App = () => {
       <h2>Hello world</h2>
       <p>testando vi</p>
       <p>commit</p>
-      <p>a</p>
-      <p>2</p>
-      <p>s</p>
-      <p>2</p>
+      <p>primeiro commit aq</p>
+      <p>quarto commit aq</p>
     </div>
   );
 };
