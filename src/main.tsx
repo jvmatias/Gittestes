@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { SWRConfig } from "swr";
 import { fetcher } from "./componentsPage/SWR.tsx";
 import "./index.css";
-import App from "./App.tsx";
+import RoutesNav from "./routes/Routes.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")!).render(
         fetcher,
       }}
     >
-      <App />
+      <RoutesNav />
     </SWRConfig>
   </StrictMode>
 );
