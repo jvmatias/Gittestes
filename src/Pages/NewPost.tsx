@@ -54,7 +54,7 @@ const addPost: React.FC = () => {
             shadow-md
             ${
               isSubmitted && newPost.title === ""
-                ? "border-red-500 focus:outline-red-500"
+                ? "border-red-500 hover:bg-red-50 focus:outline-red-500"
                 : "border-gray-500 hover:bg-gray-200  focus:outline-blue-500"
             }`}
         />
@@ -69,7 +69,7 @@ const addPost: React.FC = () => {
           placeholder="Insira o conteudo"
           className={`p-2 border w-64 rounded-md shadow-md ${
             isSubmitted && newPost.body === ""
-              ? "border-red-500 focus:outline-red-500"
+              ? "border-red-500 hover:bg-red-50 focus:outline-red-500"
               : "border-gray-500 hover:bg-gray-200 focus:outline-blue-500"
           }`}
         />

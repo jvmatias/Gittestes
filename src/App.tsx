@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const [deletePostId, setDeletePostId] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const editPostModal = async (id: number) => {
+  const editPostModal = (id: number) => {
     data?.map((post) => {
       if (post.id === id)
         setEditPost({
@@ -115,7 +115,7 @@ const App: React.FC = () => {
               className={`bg-slate-100 p-2 border h-20 rounded-md shadow-md
                 ${
                   isSubmitted && editPost.title === ""
-                    ? "border-red-500 focus:outline-red-500"
+                    ? "border-red-500 hover:bg-red-50 focus:outline-red-500"
                     : "border-gray-500 hover:bg-slate-300   focus:outline-blue-500"
                 }`}
             />
@@ -132,7 +132,7 @@ const App: React.FC = () => {
               className={`bg-slate-100 p-2 border h-20 rounded-md shadow-md 
                 ${
                   isSubmitted && editPost.body == ""
-                    ? "border-red-500 focus:outline-red-500"
+                    ? "border-red-500 hover:bg-red-50 focus:outline-red-500"
                     : "border-gray-500 hover:bg-slate-300  focus:outline-blue-500"
                 }`}
             />
@@ -140,7 +140,7 @@ const App: React.FC = () => {
               <span className="text-red-500">Preencha o formulario</span>
             )}
             {editSucess && (
-              <p className="text-green-400">Post alterado com sucesso</p>
+              <p className="text-green-600">Post alterado com sucesso</p>
             )}
             <div className="flex gap-2 my-3">
               <button
@@ -165,17 +165,15 @@ const App: React.FC = () => {
         {deleteModal && (
           <div
             className={`absolute -translate-y-2/4
-          right-1/2 translate-x-2/4 bg-slate-500 w-[300px] h-[280px] sm:w-[550px] sm:justify-center sm:pl-20 sm:h-[350px] z-10 rounded-md flex flex-col p-3 gap-10 shadow-2xl drop-shadow-xl ease-linear duration-100 `}
+          right-1/2 translate-x-2/4 bg-slate-100 w-[300px] h-[300px] sm:w-[550px] sm:justify-center sm:pl-20 sm:h-[350px] z-10 rounded-md flex flex-col p-3 gap-10 shadow-2xl drop-shadow-xl ease-linear duration-100 `}
             style={{
               top: `${screenY}px`,
             }}
           >
-            <h2 className="text-white">Deletar Post</h2>
-            <p className="text-white">
-              Você tem certeza que deseja deletar esse post?
-            </p>
+            <h2>Deletar Post</h2>
+            <p>Você tem certeza que deseja deletar esse post?</p>
             {editSucess && (
-              <p className="text-green-400">Post deletado com sucesso</p>
+              <p className="text-green-600">Post deletado com sucesso</p>
             )}
             <div className="flex gap-2 my-3">
               <button
