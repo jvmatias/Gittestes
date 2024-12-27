@@ -38,7 +38,7 @@ const addPost: React.FC = () => {
 
   return (
     <div className="w-screen h-screen justify-center">
-      <h1 className="text-xl my-2">Add new post</h1>
+      <h1 className="text-xl m-2">Add new post</h1>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-2 sm:gap-4 lg:gap-6 bg-slate-100 w-[90%] p-10 sm:w-[80%] sm:p-20 lg:w-[70%] lg:p-32 xl:w-[60%] 2xl:[50%] mx-auto 
@@ -48,26 +48,29 @@ const addPost: React.FC = () => {
         <input
           name="name"
           onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+          placeholder="Insira o titulo"
           value={newPost.title}
           className={`p-2 w-64 border rounded-md focus:ring-2
+            shadow-md
             ${
               isSubmitted && newPost.title === ""
                 ? "border-red-500 focus:outline-red-500"
-                : "border-gray-500 focus:outline-blue-500"
+                : "border-gray-500 hover:bg-gray-200  focus:outline-blue-500"
             }`}
         />
         {isSubmitted && newPost.title === "" && (
           <span className="text-red-500">Preencha o formulario</span>
         )}
-        <label htmlFor="email">Corpo do post</label>
+        <label htmlFor="email">Conteudo do post</label>
         <input
           name="email"
           value={newPost.body}
           onChange={(e) => setNewPost({ ...newPost, body: e.target.value })}
+          placeholder="Insira o conteudo"
           className={`p-2 border w-64 rounded-md shadow-md ${
             isSubmitted && newPost.body === ""
               ? "border-red-500 focus:outline-red-500"
-              : "border-gray-500 focus:outline-blue-500"
+              : "border-gray-500 hover:bg-gray-200 focus:outline-blue-500"
           }`}
         />
         {isSubmitted && newPost.body === "" && (
@@ -75,13 +78,13 @@ const addPost: React.FC = () => {
         )}
         <div className="flex flex-col gap-2 sm:gap-3 mt-2 sm:mt-4 lg:mt-6">
           <button
-            className="bg-red-300 rounded-md w-36 justify-self-end hover:bg-red-500"
+            className="bg-red-300 rounded-md w-36 justify-self-end hover:bg-red-500 shadow-md"
             type="submit"
           >
             Enviar post
           </button>
           <button
-            className="bg-red-300 rounded-md w-36 justify-self-end hover:bg-red-500 "
+            className="bg-red-300 rounded-md w-36 justify-self-end hover:bg-red-500 shadow-md"
             onClick={() => navigate("/")}
           >
             Cancelar

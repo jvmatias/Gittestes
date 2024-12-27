@@ -99,45 +99,41 @@ const App: React.FC = () => {
         {openModal && (
           <div
             className={`absolute -translate-y-2/4
-          right-1/2 translate-x-2/4 bg-slate-500 w-[300px] -h-[300px] sm:w-[550px] min-h-[350px] z-10 rounded-md flex flex-col p-3 gap-3 shadow-2xl drop-shadow-xl`}
+          right-1/2 translate-x-2/4 bg-slate-200 w-[300px] -h-[300px] sm:w-[550px] min-h-[350px] z-10 rounded-md flex flex-col p-3 gap-3 shadow-2xl drop-shadow-xl ease-linear duration-100 `}
             style={{
               top: `${screenY}px`,
             }}
           >
-            <p className="text-white">Editar usuario</p>
-            <label className="text-white" htmlFor="name">
-              Titulo do post
-            </label>
+            <p>Editar usuario</p>
+            <label htmlFor="name">Titulo do post</label>
             <textarea
               name="name"
               value={editPost.title}
               onChange={(e) =>
                 setEditPost({ ...editPost, title: e.target.value })
               }
-              className={`bg-slate-400 p-2 border h-20 rounded-md
+              className={`bg-slate-100 p-2 border h-20 rounded-md shadow-md
                 ${
                   isSubmitted && editPost.title === ""
                     ? "border-red-500 focus:outline-red-500"
-                    : "border-gray-500 focus:outline-blue-500"
+                    : "border-gray-500 hover:bg-slate-300   focus:outline-blue-500"
                 }`}
             />
             {isSubmitted && editPost.title === "" && (
               <span className="text-red-500">Preencha o formulario</span>
             )}
-            <label className="text-white" htmlFor="email">
-              Corpo do post
-            </label>
+            <label htmlFor="email">Conteudo do post</label>
             <textarea
               name="email"
               value={editPost.body}
               onChange={(e) =>
                 setEditPost({ ...editPost, body: e.target.value })
               }
-              className={`bg-slate-400 p-2 border h-20 rounded-md 
+              className={`bg-slate-100 p-2 border h-20 rounded-md shadow-md 
                 ${
                   isSubmitted && editPost.body == ""
                     ? "border-red-500 focus:outline-red-500"
-                    : "border-gray-500 focus:outline-blue-500"
+                    : "border-gray-500 hover:bg-slate-300  focus:outline-blue-500"
                 }`}
             />
             {isSubmitted && editPost.body === "" && (
@@ -148,7 +144,7 @@ const App: React.FC = () => {
             )}
             <div className="flex gap-2 my-3">
               <button
-                className="bg-red-300 rounded-md w-24"
+                className="bg-red-300 rounded-md w-24 shadow-md hover:bg-red-500"
                 onClick={() => {
                   setOpenModal(false);
                 }}
@@ -156,7 +152,7 @@ const App: React.FC = () => {
                 Cancelar
               </button>
               <button
-                className="bg-red-300 rounded-md w-24
+                className="bg-red-300 rounded-md w-24 shadow-md hover:bg-red-500
              "
                 onClick={() => putPost()}
               >
@@ -169,7 +165,7 @@ const App: React.FC = () => {
         {deleteModal && (
           <div
             className={`absolute -translate-y-2/4
-          right-1/2 translate-x-2/4 bg-slate-500 w-[300px] h-[280px] sm:w-[550px] sm:justify-center sm:pl-20 sm:h-[350px] z-10 rounded-md flex flex-col p-3 gap-10 shadow-2xl drop-shadow-xl`}
+          right-1/2 translate-x-2/4 bg-slate-500 w-[300px] h-[280px] sm:w-[550px] sm:justify-center sm:pl-20 sm:h-[350px] z-10 rounded-md flex flex-col p-3 gap-10 shadow-2xl drop-shadow-xl ease-linear duration-100 `}
             style={{
               top: `${screenY}px`,
             }}
@@ -183,13 +179,13 @@ const App: React.FC = () => {
             )}
             <div className="flex gap-2 my-3">
               <button
-                className="bg-red-300 rounded-md w-24 hover:bg-red-500"
+                className="bg-red-300 rounded-md w-24 hover:bg-red-500 shadow-md"
                 onClick={() => setDeleteModal(false)}
               >
                 Cancelar
               </button>
               <button
-                className="bg-red-300 rounded-md w-24 hover:bg-red-500
+                className="bg-red-300 rounded-md w-24 hover:bg-red-500 shadow-md
              "
                 onClick={() => deletePost(deletePostId)}
               >
@@ -202,7 +198,7 @@ const App: React.FC = () => {
         {data?.slice(0, 16).map((post) => {
           return (
             <div
-              className={`relative grid p-[inherit] gap-[inherit] bg-slate-100 rounded-md shadow-md
+              className={`relative grid p-[inherit] gap-[inherit] bg-slate-100 rounded-md shadow-md 
                 ${openModal || deleteModal ? "blur-sm" : "blur-none"}`}
               key={post.id}
             >
