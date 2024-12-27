@@ -39,7 +39,6 @@ const addPost: React.FC = () => {
   return (
     <div className="w-screen h-screen justify-center">
       <h1 className="text-xl my-2">Add new post</h1>
-
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-2 sm:gap-4 lg:gap-6 bg-slate-100 w-[90%] p-10 sm:w-[80%] sm:p-20 lg:w-[70%] lg:p-32 xl:w-[60%] 2xl:[50%] mx-auto 
